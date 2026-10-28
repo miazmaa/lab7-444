@@ -1,5 +1,7 @@
 import * as THREE from "https://unpkg.com/three@0.160.0/build/three.module.js";
+import { EXRLoader } from "https://unpkg.com/three@0.160.0/examples/jsm/loaders/EXRLoader.js";
 const loader = new THREE.TextureLoader();
+const exrLoader = new EXRLoader();
 //
 // SCENE
 //
@@ -66,10 +68,24 @@ scene.add(fireplaceLight);
 // FLOOR
 //
 
+const floorColorMap = loader.load("black_painted_planks_diff_1k.jpg");
+floorColorMap.colorSpace = THREE.SRGBColorSpace;
+
+const floorRoughnessMap = exrLoader.load("black_painted_planks_rough_1k.exr");
+const floorNormalMap = exrLoader.load("black_painted_planks_nor_gl_1k.exr");
+
+[floorColorMap, floorRoughnessMap, floorNormalMap].forEach((texture) => {
+	texture.wrapS = THREE.RepeatWrapping;
+	texture.wrapT = THREE.RepeatWrapping;
+	texture.repeat.set(6, 6);
+});
+
 const floor = new THREE.Mesh(
 	new THREE.PlaneGeometry(24, 24),
 	new THREE.MeshStandardMaterial({
-		color: 0x8b5a2b
+		map: floorColorMap,
+		roughnessMap: floorRoughnessMap,
+		normalMap: floorNormalMap
 	})
 );
 
@@ -280,10 +296,24 @@ scene.add(magazine);
 // FIREPLACE
 //
 
+const fireplaceColorMap = loader.load("floor_bricks_02_diff_1k.jpg");
+fireplaceColorMap.colorSpace = THREE.SRGBColorSpace;
+
+const fireplaceNormalMap = exrLoader.load("floor_bricks_02_nor_gl_1k.exr");
+const fireplaceRoughnessMap = loader.load("floor_bricks_02_rough_1k.jpg");
+
+[fireplaceColorMap, fireplaceNormalMap, fireplaceRoughnessMap].forEach((texture) => {
+	texture.wrapS = THREE.RepeatWrapping;
+	texture.wrapT = THREE.RepeatWrapping;
+	texture.repeat.set(2, 2);
+});
+
 const fireplace = new THREE.Mesh(
 	new THREE.BoxGeometry(4, 3, 1),
 	new THREE.MeshStandardMaterial({
-		color: 0x555555
+		map: fireplaceColorMap,
+		normalMap: fireplaceNormalMap,
+		roughnessMap: fireplaceRoughnessMap
 	})
 );
 
@@ -308,10 +338,18 @@ scene.add(fire);
 // DOOR
 //
 
+const doorColorMap = loader.load("black_walnut_veneer_03_diff_1k.jpg");
+doorColorMap.colorSpace = THREE.SRGBColorSpace;
+
+const doorRoughnessMap = exrLoader.load("black_walnut_veneer_03_rough_1k.exr");
+const doorNormalMap = exrLoader.load("black_walnut_veneer_03_nor_gl_1k.exr");
+
 const door = new THREE.Mesh(
 	new THREE.BoxGeometry(2, 4, 0.15),
 	new THREE.MeshStandardMaterial({
-		color: 0x5b3a29
+		map: doorColorMap,
+		roughnessMap: doorRoughnessMap,
+		normalMap: doorNormalMap
 	})
 );
 
