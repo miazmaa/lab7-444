@@ -1,0 +1,5 @@
+1. Assigns color values for the texture map so certain pixels are colored specific ways
+2. Creates details on a surface
+3. Changes how lightning bounces off a surface
+4. I liked the door texture the most for the color.
+5. Easier to simulate realistic designs.
