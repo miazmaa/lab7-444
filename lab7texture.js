@@ -211,10 +211,24 @@ scene.add(outdoorTreeLeaves);
 // TV STAND
 //
 
+const tvStandColorMap = loader.load("raw_wooden_floor_01_diff_1k.jpg");
+tvStandColorMap.colorSpace = THREE.SRGBColorSpace;
+
+const tvStandRoughnessMap = exrLoader.load("raw_wooden_floor_01_rough_1k.exr");
+const tvStandNormalMap = exrLoader.load("raw_wooden_floor_01_nor_gl_1k.exr");
+
+[tvStandColorMap, tvStandRoughnessMap, tvStandNormalMap].forEach((texture) => {
+	texture.wrapS = THREE.RepeatWrapping;
+	texture.wrapT = THREE.RepeatWrapping;
+	texture.repeat.set(2, 2);
+});
+
 const tvStand = new THREE.Mesh(
 	new THREE.BoxGeometry(5, 1, 1.5),
 	new THREE.MeshStandardMaterial({
-		color: 0x3a2a20
+		map: tvStandColorMap,
+		roughnessMap: tvStandRoughnessMap,
+		normalMap: tvStandNormalMap
 	})
 );
 
